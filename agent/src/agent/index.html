@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chime Connect Demo - Agent</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  </head>
+  <body>
+    <div id="agent-chat-window"></div>
+    <div class="alert-agent-end-meeting alert alert-primary" role="alert">
+      Meeting ended successfully!
+    </div>
+    <button type="button" class="btn btn-primary btn-toggle-video btn-sm">Join or Start Video</button>
+    <div class="agent-view">
+      <audio class="help-desk-audio"></audio>
+      <div class="video-wrapper">
+        <div class="div-help-desk-remote-video">
+          <div class="video-loader remote-video-loader"></div>
+          <video class="help-desk-remote-video"></video>
+          <div class="video-tile--nameplate"><p>Customer</p></div>
+        </div>
+        <div class="div-help-desk-local-video">
+          <div class="video-loader local-video-loader"></div>
+          <video class="help-desk-local-video"></video>
+          <div class="video-tile--nameplate"><p>Me</p></div>
+        </div>
+        <div class="meeting-controls">
+          <button class="controlBtn">
+            <img src="../assets/mic.svg" alt="">
+          </button>
+          <button class="controlBtn">
+            <img src="../assets/volume.svg" alt="">
+          </button>
+          <button class="controlBtn">
+            <img src="../assets/screen-share.svg" alt="">
+          </button>
+          <button class="controlBtn btn-end-meeting">
+            <img src="../assets/hang-off.svg" alt="">
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <script type="text/javascript" src="/agent-bundle.js"></script>
+  </body>
+</html>

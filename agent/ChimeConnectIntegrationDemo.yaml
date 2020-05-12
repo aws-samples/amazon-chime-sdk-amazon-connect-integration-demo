@@ -1,0 +1,198 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: Amazon Chime and Amazon Connect Integration Demo CF template
+
+Parameters:
+  AWSAmazonChimeSDKManagedPolicy:
+    Type: String
+    Description: AWS Amazon Chime SDK Managed Policy ARN
+  AWSLambdaBasicExecutionManagedPolicy:
+    Type: String
+    Description: AWS Lambda Basic Execution Managed Policy ARN
+  AWSAmazonAPIGatewayInvokeFullAccess:
+    Type: String
+    Description: AWS API Gateway Full Invoke Access ARN
+
+Resources:
+  ChimeConnectMeetingOperationsRESTApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      ApiKeySourceType: HEADER
+      EndpointConfiguration:
+        Types:
+          - EDGE
+      Name: chime-meeting-operations
+
+  MeetingResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      ParentId: !GetAtt ChimeConnectMeetingOperationsRESTApi.RootResourceId
+      PathPart: 'meeting'
+      RestApiId: !Ref ChimeConnectMeetingOperationsRESTApi
+
+  CreateChimeMeetingMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      ApiKeyRequired: false
+      AuthorizationType: AWS_IAM
+      HttpMethod: POST
+      Integration:
+        Credentials: !GetAtt ApiGatewayIamRole.Arn
+        IntegrationHttpMethod: POST
+        IntegrationResponses:
+          - StatusCode: 200
+        PassthroughBehavior: WHEN_NO_MATCH
+        Type: AWS_PROXY
+        Uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${CreateChimeMeetingLambda.Arn}/invocations'
+      ResourceId: !Ref MeetingResource
+      RestApiId: !Ref ChimeConnectMeetingOperationsRESTApi
+      MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: 'Empty'
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Origin: true
+
+  DeleteChimeMeetingMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      ApiKeyRequired: false
+      AuthorizationType: AWS_IAM
+      HttpMethod: DELETE
+      Integration:
+        Credentials: !GetAtt ApiGatewayIamRole.Arn
+        IntegrationHttpMethod: POST
+        IntegrationResponses:
+          - StatusCode: 200
+        PassthroughBehavior: WHEN_NO_MATCH
+        RequestParameters:
+          integration.request.querystring.meetingId: method.request.querystring.meetingId
+        Type: AWS_PROXY
+        Uri: !Sub 'arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DeleteChimeMeetingLambda.Arn}/invocations'
+      RequestParameters:
+        method.request.querystring.meetingId: true
+      MethodResponses:
+        - StatusCode: 200
+          ResponseModels:
+            application/json: 'Empty'
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Origin: true
+      ResourceId: !Ref MeetingResource
+      RestApiId: !Ref ChimeConnectMeetingOperationsRESTApi
+
+  ChimeConnectMeetingOperationsApiGatewayStage:
+    Type: AWS::ApiGateway::Stage
+    Properties:
+      DeploymentId: !Ref ChimeConnectMeetingOperationsApiGatewayDeployment
+      Description: Lambda API Stage v0
+      RestApiId: !Ref ChimeConnectMeetingOperationsRESTApi
+      StageName: 'v0'
+
+  ChimeConnectMeetingOperationsApiGatewayDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn: CreateChimeMeetingMethod
+    Properties:
+      Description: Lambda API Deployment
+      RestApiId: !Ref ChimeConnectMeetingOperationsRESTApi
+
+  ApiGatewayIamRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Sid: ''
+            Effect: 'Allow'
+            Principal:
+              Service:
+                - 'apigateway.amazonaws.com'
+            Action:
+              - 'sts:AssumeRole'
+      Path: '/'
+      Policies:
+        - PolicyName: LambdaAccess
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: 'Allow'
+                Action: 'lambda:InvokeFunction'
+                Resource:
+                  - !GetAtt CreateChimeMeetingLambda.Arn
+                  - !GetAtt DeleteChimeMeetingLambda.Arn
+
+  CreateChimeMeetingLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: chime-connect-integration-lambdas-bucket
+        S3Key: createChimeMeeting.zip
+      Description: AWS lambda function to create chime meeting with 2 attendees
+      FunctionName: 'createChimeMeeting'
+      Handler: index.handler
+      Role: !GetAtt LambdaIamRole.Arn
+      Runtime: nodejs12.x
+
+  DeleteChimeMeetingLambda:
+    Type: AWS::Lambda::Function
+    Properties:
+      Code:
+        S3Bucket: chime-connect-integration-lambdas-bucket
+        S3Key: deleteChimeMeeting.zip
+      Description: AWS lambda function to delete chime meeting
+      FunctionName: 'deleteChimeMeeting'
+      Handler: index.handler
+      Role: !GetAtt LambdaIamRole.Arn
+      Runtime: nodejs12.x
+
+  LambdaIamRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: 'Allow'
+            Principal:
+              Service:
+                - 'lambda.amazonaws.com'
+            Action:
+              - 'sts:AssumeRole'
+      ManagedPolicyArns:
+        - !Ref AWSAmazonChimeSDKManagedPolicy
+        - !Ref AWSLambdaBasicExecutionManagedPolicy
+      Path: '/'
+
+  ChimeConnectDemoUser:
+    Type: AWS::IAM::User
+    Properties:
+      ManagedPolicyArns:
+        - !Ref AWSAmazonAPIGatewayInvokeFullAccess
+      UserName: ChimeConnectDemoUser
+
+  ChimeConnectDemoUserAccessAndSecretKeys:
+    Type: AWS::IAM::AccessKey
+    Properties:
+      UserName:
+        Ref: ChimeConnectDemoUser
+
+Outputs:
+  ChimeConnectDemoUserAccessKey:
+    Description: Access key for ChimeConnectDemoUser
+    Value: !Ref ChimeConnectDemoUserAccessAndSecretKeys
+    Export:
+      Name: ChimeConnectDemoUserAccessKey
+
+  ChimeConnectDemoUserSecretKey:
+    Description: Secret key for ChimeConnectDemoUser
+    Value: !GetAtt ChimeConnectDemoUserAccessAndSecretKeys.SecretAccessKey
+    Export:
+      Name: ChimeConnectDemoUserSecretKey
+
+  invokeURL:
+    Description: API Gateway Endpoint Invoke URL
+    Value: !Join
+            - ''
+            - - 'https://'
+              - !Ref ChimeConnectMeetingOperationsRESTApi
+              - '.execute-api.'
+              - !Ref 'AWS::Region'
+              - '.amazonaws.com/'
+              - !Ref ChimeConnectMeetingOperationsApiGatewayStage

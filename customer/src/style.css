@@ -1,0 +1,577 @@
+.wrap {
+  width: 100%;
+  height: 100vh;
+  background: linear-gradient( rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.3)), url('/ap_screen2.png');
+  background-size: cover;
+  background-position-x: center;
+}
+
+.meeting-info {
+  display: none;
+  margin-top: 5%;
+  font-size: 1.1em;
+}
+
+.meeting-view {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 0;
+  background-color: rgba(0, 0, 0, .6);
+  animation: fade-in 700ms ease;
+  animation-fill-mode: forwards;
+}
+
+
+.agent-view {
+  background-color: #272727;
+}
+
+.agent-view .meeting-view  {
+  animation: none;
+  background-color: #272727;
+  opacity: 1;
+}
+
+.agent-view .meeting-info {
+  display: none;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* .customer-video {
+  width: 450px;
+} */
+
+.customer-local-video {
+  width: 450px;
+  height: 250px;
+}
+
+.agent-video {
+  margin-bottom: 30px;
+}
+
+.agent-video .video-wrapper {
+  width: 854px;
+  height: 480px;
+  margin: auto;
+}
+
+.agent-remote-video {
+  position: relative;
+  width: 854px;
+  height: 480px;
+  margin: 0 auto;
+}
+
+.video-tile {
+  display: inline-block;
+  animation: slide-fade 330ms ease;
+  animation-delay: 400ms;
+  animation-fill-mode: forwards;
+  border-radius: 4px;
+  overflow: hidden;
+  opacity: 0;
+}
+
+.customer-video .video-tile {
+  animation-delay: 850ms;
+}
+
+.video-tile video {
+  object-fit: cover;
+  display: block;
+}
+
+.video-wrapper {
+  background-color: #464343;
+  position: relative;
+}
+
+.video-loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.video-loader::before {
+  content: "";
+  display: block;
+  height: 80px;
+  width: 80px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #2879ff transparent transparent;
+  border-radius: 100%;
+  animation: rotation .8s infinite linear;
+}
+
+.video-tile--nameplate {
+  padding: 6px 14px 9px;
+  margin: 0;
+  font-size: 21px;
+  text-align: left;
+  background: #131212;
+  color: #d0d0d0;
+}
+
+.customer-video .video-tile--nameplate {
+  font-size: 16px;
+  padding: 6px 12px 7px
+}
+
+.customer-audio {
+  display: none;
+}
+
+.end-btn {
+  display: none;
+}
+
+#ccpContainer {
+  width: 200px;
+  height: 525px;
+  overflow: hidden;
+  float: left;
+  margin-left: 22px;
+  padding: 10px;
+}
+
+nav {
+  width: 690px;
+}
+
+.section-main {
+  display: table-cell;
+}
+
+.section-chat {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  bottom: 45px;
+  right: 50px;
+  height: auto;
+  width: auto;
+  border-radius: 5px;
+  z-index: 100;
+}
+
+.connect-customer-interface {
+  font-size: 14px;
+  box-shadow: 0 0 10px 0 rgba(170, 183, 184, 0.45) !important;
+}
+
+#contactDetails input {
+  display: none;
+}
+
+#startChat {
+  display: block !important;
+  color: #fff;
+  padding: 6px 12px 4px;
+  font-size: 1.1em;
+  position: fixed;
+  bottom: 0;
+  right: 175px;
+  border: none;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+}
+
+.chat-btn {
+  color: #fff;
+  background-color: #2879ff;
+  transition: background-color 180ms ease;
+}
+
+.chat-btn:hover {
+  color: #fff;
+  text-decoration: none;
+  background-color: #1a60d4 !important;
+}
+
+@keyframes slide-fade {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+#meeting-local-video-tile {
+  width: 320px;
+  height: 180px;
+  display: none;
+}
+
+.centered {
+  text-align: center;
+}
+
+.spinner.loading {
+  display: none;
+  text-align: center;
+}
+
+.loading-text {
+  width: 90px;
+  position: absolute;
+  top: 245px;
+  left: 137px;
+  text-align: center;
+}
+
+.meeting-info {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+
+.meeting-msg {
+  padding: 40px 45px 55px;
+  border-radius: 5px;
+  background: #080808;
+  color: #f3f3f3;
+  animation: pop-in 225ms ease;
+  animation-fill-mode: forwards;
+  min-width: 600px;
+}
+
+.meeting-msg__head {
+  margin-bottom: 12px;
+}
+
+.meeting-msg__subhead {
+  color: #8e8c8c;
+  margin-bottom: 40px;
+}
+
+.meeting-msg__link {
+  color: #f3f3f3;
+  display: inline-block;
+  background: #2879ff;
+  text-decoration: none;
+  padding: 12px 14px;
+  border-radius: 3px;
+  text-decoration: none;
+}
+
+@keyframes pop-in {
+  from {
+    opacity: .1;
+    transform: translateY(10px) scale(.65);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(-50px) scale(1);
+  }
+}
+
+@keyframes animScale {
+	from {
+    opacity: 0;
+    transform: translate3d(0,40px,0) scale3d(0.1,0.6,1);
+  }
+
+	to {
+    opacity: 1;
+    transform: translate3d(0,0,0) scale3d(1,1,1); }
+}
+
+
+.meeting-message a {
+  text-decoration: underline;
+}
+
+#join-button {
+  position: fixed;
+  bottom: 519px;
+  right: 244px;
+  width: 140px;
+  text-align: center;
+  z-index: 100;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  background-color: #2879ff;
+  border: none;
+  animation: slide-up 250ms ease;
+  animation-fill-mode: forwards;
+  transform: translateY(40px);
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(40px)
+  }
+
+  to {
+    transform: translateY(0)
+  }
+}
+
+.spinner.loading:before {
+  content: "";
+  height: 110px;
+  width: 110px;
+  margin: -15px auto auto -15px;
+  position: absolute;
+  top: 218px;
+  left: 143px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #2879ff transparent transparent;
+  border-radius: 100%;
+  animation: rotation .8s infinite linear;
+}
+
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+ol.normal {
+  list-style-type: disc;
+  padding-left: 50px;
+}
+
+.wrap {
+  white-space: nowrap;
+
+}
+
+.header-wrapper {
+  padding: 10px 10px 14px;
+  border-bottom: 2px solid #e6e2e2;
+  background: white;
+  color: #383636;
+}
+
+.welcome-text {
+  font-size: 18px;
+  margin: 0;
+}
+
+#chatDescription {
+  font-size: 13px;
+  margin: 4px 0 0 0;
+}
+
+.footer-actions {
+  background: #eee;
+  height: 85px;
+}
+
+.button-wrapper {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  height: 100%;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.button-wrapper>button {
+  min-width: 85px;
+  margin: 6px;
+  font-weight: bold;
+}
+
+.action-button {
+  width: 43%;
+  line-height: 1.465;
+  font-weight: normal;
+  white-space: nowrap;
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  text-align: center;
+  vertical-align: middle;
+  padding-right: 10px;
+  padding-left: 10px;
+  font-family: AmazonEmber_Md, Helvetica, sans-serif;
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  max-width: 260px;
+  padding-top: 0.45rem;
+  padding-bottom: 0.45rem;
+  font-size: 0.875rem;
+  box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 3px 0px;
+  border-width: 0px;
+  border-style: solid;
+  background: linear-gradient(rgb(208, 2, 27), rgb(208, 2, 27) 80%, rgb(233, 2, 30));
+  border-color: rgb(208, 2, 27);
+}
+
+.meeting-controls {
+  position: fixed;
+  bottom: 45px;
+  display: flex;
+}
+
+.controlBtn {
+  content: "";
+  display: block;
+  height: 70px;
+  width: 70px;
+  margin: 0 10px;
+  border: none;
+  border-radius: 100%;
+  background: #1d1c1c;
+  transition: all 180ms ease;
+}
+
+.controlBtn:hover {
+  transform: translateY(-4px);
+  background-color: #101010;
+}
+
+.controlBtn img {
+  width: 48px
+}
+
+/* Chat links */
+.sc-cSHVUG.eourdf .Linkify a {
+  color: white;
+  text-decoration: underline;
+  display: inline-block;
+}
+
+.sc-cSHVUG.eourdf .Linkify a:hover {
+  opacity: .7;
+}
+
+/* Bubble container */
+.sc-VigVT.fgGyCn {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.sc-jTzLTM.djefvl {
+  width: 100%;
+}
+
+/* Outgoing chat bubble */
+.sc-cSHVUG.eourdf {
+  background-color: #2879ff;
+  color: white;
+}
+
+/* End chat box */
+.sc-hSdWYo.cxjoTn {
+  background-color: white;
+}
+
+/* Delivery date */
+.sc-jzJRlG.XJdGr {
+  font-size: 12px;
+  color: #b7b3b3;
+}
+
+/* Delivery text */
+.sc-chPdSV.iiumMg {
+  color: #b7b3b3;
+}
+
+/* Message container */
+.sc-jKJlTe.doyFyC.sc-kGXeez.hSemjU {
+  padding-bottom: 10px;
+  overflow-y: auto;
+}
+
+/* Bubble */
+.sc-cSHVUG.joKHqV {
+  display: inline-block;
+  padding: 7px 12px;
+}
+
+.sc-cSHVUG.eourdf {
+  display: inline-block;
+  margin-left: auto;
+  padding: 7px 12px;
+}
+
+/* Outoing bubble arrow */
+.sc-cSHVUG.eourdf::after {
+  border-bottom-color: #2879ff;
+}
+
+/* End chat button container */
+.sc-iAyFgw.iJXXEz {
+  position: absolute;
+  top: 0;
+}
+
+/* End chat button */
+.sc-eHgmQL.kBXJGC.sc-gzVnrw.bsduuv {
+  position: absolute;
+  left: 234px;
+  top: -37px;
+  box-shadow: none !important;
+  color: transparent !important;
+  background: none;
+}
+
+.sc-eHgmQL.kBXJGC.sc-gzVnrw.bsduuv:hover {
+  background: none;
+}
+
+.sc-eHgmQL.kBXJGC.sc-gzVnrw.bsduuv::after {
+  content: "X";
+  display: block;
+  color: #191818;
+  padding: 3px 8px;
+  font-size: 16px;
+  border-top-left-radius: 3px;
+  border-top-right-radius: 3px;
+}
+
+/* Chat input */
+.sc-kEYyzF.qkNCx {
+  border: none;
+  border-top: 1px solid #9e9e9e;
+}
+
+/* Chat message input placeholder */
+.sc-hMqMXs.dSGijn {
+  padding: 11px 0 0 12px;
+  color: #585858
+}
+
+.alert-agent-left {
+  display: none;
+  margin: 0;
+  position: fixed !important;
+  right: 6rem;
+  bottom: 32rem;
+}

@@ -1,0 +1,124 @@
+#agent-chat-window {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+  }
+  
+  .btn-toggle-video {
+    position: absolute;
+    right: 5px;
+    top: 10rem;
+    display: none;
+  }
+
+  .agent-view {
+    display: none;
+    position: absolute;
+    right: 5px;
+    top: 12rem;
+    height: 26rem;
+    border-radius: 0.2rem;
+    width: 18rem;
+    margin: auto;
+    text-align: center;
+    background-color: #272727;
+  }
+
+  .div-help-desk-remote-video {
+    margin: 1rem 2rem 1rem 2rem;
+  }
+
+  .div-help-desk-local-video{
+    margin: 1rem 2rem 1rem 2rem;
+  }
+
+  .help-desk-remote-video, .help-desk-local-video {
+    height: 8rem;
+    border-top-left-radius: 0.2rem;
+    border-top-right-radius: 0.2rem;
+  }
+
+  .video-tile--nameplate {
+    width: 14.25rem;
+    font-size: 14px;
+    padding-left: 2px;
+    text-align: left;
+    background: #131212;
+    color: #d0d0d0;
+    border-bottom-left-radius: 0.2rem;
+    border-bottom-right-radius: 0.2rem;
+  }
+
+  .video-wrapper {
+    margin: auto;
+    width: auto;
+    height: auto;
+  }
+
+  .meeting-controls {
+    margin: 0.25rem 1.5rem;
+    display: flex;
+  }
+
+  .video-loader {
+    position: absolute;
+    left: 4rem;
+    right: 4rem;
+    margin: auto;
+    border-width: 5px;
+    border-color: #2879ff transparent transparent;
+    border-radius: 100%;
+    animation: rotation .8s infinite linear;
+    border-style: solid;
+    height: 40px;
+    width: 40px;
+  }
+
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+
+    100% {
+      transform: rotate(359deg);
+    }
+  }
+
+  .remote-video-loader {
+    top: 4rem;
+    display: block;
+  }
+
+  .local-video-loader {
+    top: 15rem;
+    display: block;
+  }
+
+  .controlBtn {
+    content: "";
+    display: block;
+    height: 40px;
+    width: 40px;
+    margin: 0 10px;
+    border: none;
+    border-radius: 100%;
+    background: #1d1c1c;
+    transition: all 180ms ease;
+  }
+
+  .controlBtn:hover {
+    transform: translateY(-4px);
+    background-color: #101010;
+  }
+
+  .controlBtn img {
+    width: 30px;
+  }
+
+  .alert-agent-end-meeting {
+    display: none;
+    position: absolute !important;
+    margin: 0;
+    left: 40%;
+    top: 13%;
+  }

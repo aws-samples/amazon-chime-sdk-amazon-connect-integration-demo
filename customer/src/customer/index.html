@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="./style.css" />
+  <title>Chime Connect Demo - Customer</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script src="amazon-connect-chat-interface.js"></script>
+</head>
+
+<body>
+  <div class="wrap">
+    <section class="section-main" id="section-main">
+      <form name="contactDetails" id="contactDetails" style="padding-top: 30px">
+        <fieldset>
+          <div>
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <input name="firstName" type="text" id="firstName" placeholder="First Name" style="width:161px;" value="customer">
+                  </td>
+                  <td>
+                    <input name="username" type="text" id="username" placeholder="User Name" style="width:161px;" value="customerUsername">
+                  </td>
+                  <td style="padding-left: 10px;">
+                    <input type="submit" style="padding-left: 10px;" class="submit chat-btn" id="startChat"
+                      value="Speak to an agent"></input>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </fieldset>
+      </form>
+
+      <div class="meeting-info">
+        <button id="join-button" class="btn btn-secondary chat-btn" type="submit">Join video call</button>
+      </div>
+
+      <div class="alert-agent-left alert alert-primary" role="alert">
+        Agent has ended the meeting!
+      </div>
+
+      <div class="meeting-view">
+        <audio class="customer-audio"></audio>
+        
+        <div class="agent-video">
+          <div class="video-tile">
+            <div class="video-wrapper">
+              <div class="video-loader"></div>
+              <video class="agent-remote-video"></video>
+            </div>
+              <h3 class="video-tile--nameplate">Agent</h3>
+            </div>
+          </div>
+
+          <div class="customer-video">
+            <div class="video-tile">
+              <div class="video-wrapper">
+                <div class="video-loader"></div>
+                <video class="customer-local-video"></video>
+              </div>
+              <h3 class="video-tile--nameplate">Me</h3>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+  </div>
+
+  </section>
+
+  <section class="section-chat" id="section-chat" style="display: none">
+    <div id="chatWrapper">
+      <div id="root"></div>
+    </div>
+    <div class="centered">
+      <div id="divSpinner" class="spinner loading">
+        <div class="loading-text">Loading</div>
+      </div>
+      <script src="./customer-bundle.js"></script>
+  </section>
+  </div>
+</body>
+
+</html>
