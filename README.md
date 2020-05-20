@@ -124,9 +124,17 @@ Navigate to `/agent/`
 5. Step 4 opens http://localhost:8080 in your browser
 
 
+## Important Note
+
+The access and secret key are included as part of the JavaScript for the purpose of this demo. In a production application, these keys should not be delivered as part of any JavaScript. You can use [Amazon Cognito](https://aws.amazon.com/cognito/) for better implementation of authentication and authorization.
+
+Amazon Cognito lets you add user sign-up, sign-in, and access control to your web and mobile apps quickly and easily. Amazon Cognito scales to millions of users and supports sign-in with social identity providers, such as Facebook, Google, and Amazon, and enterprise identity providers via SAML 2.0.
+
+Amazon Cognito also provides solutions to control access to backend resources from your app. You can define roles and map users to different roles so your app can access only the resources that are authorized for each user.
+
 ## Troubleshooting
 
-* This demo is developed and tested in `us-east-1` region, if you use any other region please update the same everywhere else in the entire customer and agent application.
+This demo is developed and tested in `us-east-1` region, if you use any other region please update the same everywhere else in the entire customer and agent application.
 
 
 ## License
