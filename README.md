@@ -22,7 +22,7 @@ This bot is needed for the contact flow (`Chime Connect Integration flow.json`).
 #### Step 2: Create Amazon Connect Instance
 1. Follow [Amazon Connect Create Instance](https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-instances.html)
 2. In Step 1: Identity Management, choose *Store users within Amazon Connect*
-    1. Provide Access URL as https://<Instance Alias Name>.awsapps.com/connect/home
+    1. Provide Access URL as https://`<instance_alias_name>`.awsapps.com/connect/home
 3. In Step 2: Administrator, choose add new admin. This admin is required when you run the Agent CCP application for login purposes
 4. Click on Create instance
 
