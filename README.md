@@ -71,6 +71,8 @@ Navigate to `/customer/`
   3. Keep everything rest as is and click on Create bucket
 3. Goto created Amazon S3 bucket, click on Upload then click on Add files and upload the zip files from `/agent/aws_lambdas`
 
+As Amazon S3 bucket should have a unique name, you may have to create the Amazon S3 bucket with a different name. In that case, please search and replace `chime-connect-integration-lambdas-bucket` (old Amazon S3 bucket name) with your newly created Amazon S3 bucket name in `ChimeConnectIntegrationDemo.yaml` file in the `/agent/` folder. If not done so, the AWS CloudFormation stack creation in next step fails.
+
 You should now have the Amazon S3 bucket with two lambda function zip files.
 
 
@@ -81,7 +83,7 @@ You should now have the Amazon S3 bucket with two lambda function zip files.
     1. Prerequisite - Prepare template: `Template is ready`
     2. Specify template:
    	   1. Template source: Select `Upload a template file`
-   	   2. Upload a template file → Select the ` ChimeConnectIntegrationDemo.yaml` file from `/agent/` folder
+   	   2. Upload a template file → Select the `ChimeConnectIntegrationDemo.yaml` file from `/agent/` folder
    	   3. Click Next
 4. Specify stack details
    1. Stack Name: `ChimeSDKConnectIntegrationDemo`
