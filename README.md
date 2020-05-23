@@ -66,12 +66,10 @@ Navigate to `/customer/`
 #### Step 1: Create Amazon S3 Bucket for AWS Lambda functions
 1. Goto [Amazon S3](https://s3.console.aws.amazon.com/s3)
 2. Click Create bucket
-  1. Bucket name: `chime-connect-integration-lambdas-bucket`
+  1. Bucket name: `<unique Amazon S3 bucket name>`
   2. Region: `us-east-1`
   3. Keep everything rest as is and click on Create bucket
 3. Goto created Amazon S3 bucket, click on Upload then click on Add files and upload the zip files from `/agent/aws_lambdas`
-
-As Amazon S3 bucket should have a unique name, you may have to create the Amazon S3 bucket with a different name. In that case, please search and replace `chime-connect-integration-lambdas-bucket` (old Amazon S3 bucket name) with your newly created Amazon S3 bucket name in `ChimeConnectIntegrationDemo.yaml` file in the `/agent/` folder. If not done so, the AWS CloudFormation stack creation in next step fails.
 
 You should now have the Amazon S3 bucket with two lambda function zip files.
 
@@ -91,6 +89,7 @@ You should now have the Amazon S3 bucket with two lambda function zip files.
       1. AWSAmazonAPIGatewayInvokeFullAccess: `arn:aws:iam::aws:policy/AmazonAPIGatewayInvokeFullAccess`
       2. AWSAmazonChimeSDKManagedPolicy: `arn:aws:iam::aws:policy/AmazonChimeSDK`
       3. AWSLambdaBasicExecutionManagedPolicy: `arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole`
+      4. AmazonS3BucketName: Amazon S3 bucket name created in [agent setup step 1(#step-1:-create-amazon-s3-bucket-for-aws-lambda-functions)
    3. Click Next
 5. Click Next on Configure stack options with everything as is.
 6. On the final Review page, check the acknowledge option under capabilities and click Create Stack.

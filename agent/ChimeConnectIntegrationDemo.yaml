@@ -11,6 +11,9 @@ Parameters:
   AWSAmazonAPIGatewayInvokeFullAccess:
     Type: String
     Description: AWS API Gateway Full Invoke Access ARN
+  AmazonS3BucketName:
+    Type: String
+    Description: Amazon S3 bucket name in which you stored the Create and Delete meeting AWS lambda functions
 
 Resources:
   ChimeConnectMeetingOperationsRESTApi:
@@ -123,7 +126,7 @@ Resources:
     Type: AWS::Lambda::Function
     Properties:
       Code:
-        S3Bucket: chime-connect-integration-lambdas-bucket
+        S3Bucket: !Ref AmazonS3BucketName
         S3Key: createChimeMeeting.zip
       Description: AWS lambda function to create chime meeting with 2 attendees
       FunctionName: 'createChimeMeeting'
@@ -135,7 +138,7 @@ Resources:
     Type: AWS::Lambda::Function
     Properties:
       Code:
-        S3Bucket: chime-connect-integration-lambdas-bucket
+        S3Bucket: !Ref AmazonS3BucketName
         S3Key: deleteChimeMeeting.zip
       Description: AWS lambda function to delete chime meeting
       FunctionName: 'deleteChimeMeeting'
