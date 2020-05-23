@@ -89,7 +89,7 @@ You should now have the Amazon S3 bucket with two lambda function zip files.
       1. AWSAmazonAPIGatewayInvokeFullAccess: `arn:aws:iam::aws:policy/AmazonAPIGatewayInvokeFullAccess`
       2. AWSAmazonChimeSDKManagedPolicy: `arn:aws:iam::aws:policy/AmazonChimeSDK`
       3. AWSLambdaBasicExecutionManagedPolicy: `arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole`
-      4. AmazonS3BucketName: Amazon S3 bucket name created in [agent setup step 1(#step-1:-create-amazon-s3-bucket-for-aws-lambda-functions)
+      4. AmazonS3BucketName: Amazon S3 bucket name created in [agent setup step 1](#step-1:-create-amazon-s3-bucket-for-aws-lambda-functions)
    3. Click Next
 5. Click Next on Configure stack options with everything as is.
 6. On the final Review page, check the acknowledge option under capabilities and click Create Stack.
