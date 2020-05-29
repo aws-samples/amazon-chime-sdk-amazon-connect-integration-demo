@@ -52,8 +52,9 @@ Follow [Amazon Connect Chat UI Example GitHub](https://github.com/amazon-connect
 Navigate to `/customer/`
 
 1. Update the `API_GATEWAY_ENDPOINT`, `CONTACT_FLOW_ID` and `INSTANCE_ID` in `/customer/src/ConnectChatInterfaceConfig.js`
-    1. You can get the `CONTACT_FLOW_ID` and `INSTANCE_ID` when you open your `Chime Connect Integration Flow` contact flow in Amazon Connect instance, check the URL in browser. The URL will have → instance/{instanceId}/contact-flow/{contactId}
-    2. Update `AWS_REGION` if needed.
+    1. Update `AWS_REGION` if needed.
+    2. Get the `API_GATEWAY_ENDPOINT` from output tab once you create the `asyncCustomerChatUX` AWS CloudFormation template stack. 
+    3. You can get the `CONTACT_FLOW_ID` and `INSTANCE_ID` when you open your `Chime Connect Integration Flow` contact flow in Amazon Connect instance, check the URL in browser. The URL will have → instance/{instanceId}/contact-flow/{contactId}.
 2. Check if `amazon-connect-chat-interface.js` file is added to `/customer/public` folder
 3. Open terminal, navigate to `/customer/` directory
     1. Install NPM dependencies: `npm install`
@@ -135,7 +136,11 @@ Amazon Cognito also provides solutions to control access to backend resources fr
 
 ## Troubleshooting
 
-This demo is developed and tested in `us-east-1` region, if you use any other region please update the same everywhere else in the entire customer and agent application.
+* This demo is developed and tested in `us-east-1` region, if you use any other region please update the same everywhere else in the entire customer and agent application.
+
+* If you have selected an AWS region other than `us-east-1`, the `StartVideoCall` Amazon Lex bot will not work as it was exported from `us-east-1` region, to update it do the following: 
+    1. Update the `StartVideoCall` bot by going to `Chime Connect Integration flow` (imported just above) → `Get Customer Input` block
+    2. Click on `Get Customer Input` and on the right side panel, under the Lex tab select the single entry of `StartVideoCall` bot from the dropdown. This updates the `StartVideoCall` Amazon Lex bot you created in your region.
 
 
 ## License
