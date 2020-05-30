@@ -137,7 +137,7 @@ Amazon Cognito also provides solutions to control access to backend resources fr
 
 * If you have selected an AWS region other than `us-east-1`, the `StartVideoCall` Amazon Lex bot will not work as it was exported from `us-east-1` region, to update it do the following: 
     1. Update the `StartVideoCall` Amazon Lex bot by going to `Chime Connect Integration flow` (imported just above) → `Get Customer Input` block
-    2. Click on `Get Customer Input` and on the right side panel, under the Lex tab select the single entry of `StartVideoCall` bot from the dropdown. This updates the `StartVideoCall` Amazon Lex bot you created in your region.
+    2. Click on `Get Customer Input` and on the right side panel, under the Lex tab select the single entry of `StartVideoCall` Amazon Lex bot from the dropdown. This updates the `StartVideoCall` Amazon Lex bot you created in your region.
 
 
 ## License
