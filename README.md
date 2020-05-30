@@ -86,11 +86,8 @@ You should now have the Amazon S3 bucket with two lambda function zip files.
    	   3. Click Next
 4. Specify stack details
    1. Stack Name: `ChimeSDKConnectIntegrationDemo`
-   2. In Parameters section: (These are AWS managed IAM policies)
-      1. AWSAmazonAPIGatewayInvokeFullAccess: `arn:aws:iam::aws:policy/AmazonAPIGatewayInvokeFullAccess`
-      2. AWSAmazonChimeSDKManagedPolicy: `arn:aws:iam::aws:policy/AmazonChimeSDK`
-      3. AWSLambdaBasicExecutionManagedPolicy: `arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole`
-      4. AmazonS3BucketName: Amazon S3 bucket name created in [agent setup step 1](#step-1-create-amazon-s3-bucket-for-aws-lambda-functions)
+   2. In Parameters section:
+      1. AmazonS3BucketName: Provide Amazon S3 bucket name created in [agent setup step 1](#step-1-create-amazon-s3-bucket-for-aws-lambda-functions)
    3. Click Next
 5. Click Next on Configure stack options with everything as is.
 6. On the final Review page, check the acknowledge option under capabilities and click Create Stack.
@@ -139,7 +136,7 @@ Amazon Cognito also provides solutions to control access to backend resources fr
 * This demo is developed and tested in `us-east-1` region, if you use any other region please update the same everywhere else in the entire customer and agent application.
 
 * If you have selected an AWS region other than `us-east-1`, the `StartVideoCall` Amazon Lex bot will not work as it was exported from `us-east-1` region, to update it do the following: 
-    1. Update the `StartVideoCall` bot by going to `Chime Connect Integration flow` (imported just above) → `Get Customer Input` block
+    1. Update the `StartVideoCall` Amazon Lex bot by going to `Chime Connect Integration flow` (imported just above) → `Get Customer Input` block
     2. Click on `Get Customer Input` and on the right side panel, under the Lex tab select the single entry of `StartVideoCall` bot from the dropdown. This updates the `StartVideoCall` Amazon Lex bot you created in your region.
 
 

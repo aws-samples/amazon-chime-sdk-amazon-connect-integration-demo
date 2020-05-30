@@ -2,15 +2,6 @@ AWSTemplateFormatVersion: 2010-09-09
 Description: Amazon Chime and Amazon Connect Integration Demo CF template
 
 Parameters:
-  AWSAmazonChimeSDKManagedPolicy:
-    Type: String
-    Description: AWS Amazon Chime SDK Managed Policy ARN
-  AWSLambdaBasicExecutionManagedPolicy:
-    Type: String
-    Description: AWS Lambda Basic Execution Managed Policy ARN
-  AWSAmazonAPIGatewayInvokeFullAccess:
-    Type: String
-    Description: AWS API Gateway Full Invoke Access ARN
   AmazonS3BucketName:
     Type: String
     Description: Amazon S3 bucket name in which you stored the Create and Delete meeting AWS lambda functions
@@ -159,15 +150,15 @@ Resources:
             Action:
               - 'sts:AssumeRole'
       ManagedPolicyArns:
-        - !Ref AWSAmazonChimeSDKManagedPolicy
-        - !Ref AWSLambdaBasicExecutionManagedPolicy
+        - arn:aws:iam::aws:policy/AmazonChimeSDK
+        - arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole
       Path: '/'
 
   ChimeConnectDemoUser:
     Type: AWS::IAM::User
     Properties:
       ManagedPolicyArns:
-        - !Ref AWSAmazonAPIGatewayInvokeFullAccess
+        - arn:aws:iam::aws:policy/AmazonAPIGatewayInvokeFullAccess
       UserName: ChimeConnectDemoUser
 
   ChimeConnectDemoUserAccessAndSecretKeys:
