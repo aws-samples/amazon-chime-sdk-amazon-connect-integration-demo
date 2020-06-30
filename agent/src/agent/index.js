@@ -41,7 +41,7 @@ function initButtons() {
 
 async function handleVideoToggleButton(event) {
   const videoToggleButton = event.target;
-  if(videoToggleButton.innerHTML === "Join or Start Video") {
+  if(videoToggleButton.innerHTML === "Join Video") {
     if(session == null) {
       await initializaMeetingSession();
     }
@@ -49,7 +49,7 @@ async function handleVideoToggleButton(event) {
     videoToggleButton.innerHTML = "Hide Video";
   } else if(videoToggleButton.innerHTML === "Hide Video") {
     domHide('agent-view');
-    videoToggleButton.innerHTML = "Join or Start Video";
+    videoToggleButton.innerHTML = "Join Video";
   }
 }
 
@@ -220,7 +220,7 @@ function leave() {
   domShow('local-video-loader');
   domShow('remote-video-loader');
   domHide('agent-view');
-  domElement("btn-toggle-video").innerHTML = "Join or Start Video";
+  domElement("btn-toggle-video").innerHTML = "Join Video";
   domHide("btn-toggle-video");
 }
 
