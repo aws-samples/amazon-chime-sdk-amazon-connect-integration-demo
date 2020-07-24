@@ -5,6 +5,10 @@ This demo explains how you can use [Amazon Chime SDK](https://aws.amazon.com/chi
 
 The demo has a customer application that uses the pre-built customer chat widget provided by Amazon Connect and a customized agent CCP application that uses [Amazon Connect Streams API](https://github.com/amazon-connect/amazon-connect-streams) in-order to subscribe to the events which provide the agent and customer state.
 
+## Diagram
+
+![architecture-solution-diagram](./solution-diagram/amazon-connect-chime-sdk-integration-solution-diagram.png)
+
 ## Getting Started
 
 ### Customer Setup
