@@ -17,11 +17,12 @@ let agentAttendee = null,
     customerAttendee = null,
     meeting = null,
     observer = null,
-    session = null;
+    session = null, joinInfo = null;
 
 window.contact = window.contact || {};
 window.connect = window.connect || {};
 window.agent = window.agent || {};
+
 
 window.addEventListener('load', () => {
   initCCP();
@@ -59,7 +60,6 @@ function initCCP() {
     ccpUrl: AGENT_CCP_URL,
     region: AWS_REGION
   });
-
   window.connect = connect;
   connect.agent(subscribeToAgentEvents);
   connect.contact(subscribeToContactEvents);
@@ -71,67 +71,24 @@ function subscribeToAgentEvents(agent) {
 }
 
 function subscribeToContactEvents(contact) {
-  contact.onConnecting(handleContactOnConnecting);
-  contact.onConnected(handleContactConnected);
-  contact.onAccepted(handleContactAccepted);
-  contact.onEnded(handleContactEnded);
+  contact.onAccepted(handleContactAccepted(contact));
+  contact.onEnded(handleContactEnded(contact));
 }
 
-function handleContactOnConnecting(contact) {
-  if (contact) {
-    console.log('[contact.onConnecting] Contact is connecting to agent. Contact state is '+ contact.getStatus().type);
-    window.contact = contact;
-  } else {
-    console.log('[contact.onConnecting] Contact is connecting to agent. Null contact passed to event handler');
-  }
-}
-
-function handleContactConnected(contact) {
-  if (contact) {
-    console.log("[contact.onConnected] Contact connected. Contact state is "+ contact.getStatus().type);
-  } else {
-    console.log("[contact.onConnected] Contact connected. Null contact passed to event handler");
-  }
-}
-
-async function handleContactAccepted(contact) {
-  // contact is passed as null hence assign the contact to local contact object
-  let localContact = contact;
-  if(localContact == null) {
-    // window.contact is used it as the contact was set to window.contact already as part of the handleContactOnConnecting
-    console.log("Contact accepted by the agent:", window.contact);
-    localContact = window.contact;
-    // next check if still null then use connect streams api to get the initial contact for the current agent
-  } else if(localContact == null) {
-    let agentContacts = window.agent.getContacts();
-    localContact = (agentContacts && agentContacts.length > 0) ? agentContacts[0] : null;
-  }
-
-  const joinInfo = await createMeetingAndAddCustomerAndAgentAttendee();
-  setMeetingInfo(joinInfo);
-  
-
-  if(localContact) {
-    // send message in the chat for meeting and customer details
-    const controller = await localContact.getAgentConnection().getMediaController();
-    if(controller) {
-      setTimeout(sendMessage("Meeting Info: " + JSON.stringify(meeting), controller),5000);
-      setTimeout(sendMessage("CustomerAttendee Info: " + JSON.stringify(customerAttendee), controller), 10000);
-      setTimeout(domShow('btn-toggle-video'), 10000);
-    } else {
-      console.log("Error - could not get access to agent chat session");
-    }
-  } else {
-    console.log('No contact found on onAccepted or onConnected events');
-  }
-  
+const handleContactAccepted = contact => async ({ contactId }) => {
+  joinInfo = await createMeetingAndAddCustomerAndAgentAttendee();
+  getMeetingInfo(joinInfo);
+  const controller = await contact.getAgentConnection().getMediaController();
+  setTimeout(sendMessage("Meeting Info: " + JSON.stringify(joinInfo.meeting), controller),5000);
+  setTimeout(sendMessage("CustomerAttendee Info: " + JSON.stringify(joinInfo.customerAttendee), controller), 10000);
+  setTimeout(domShow('btn-toggle-video'), 10000);
 }
 
 
 
 async function handleContactEnded(contact) {
   if (contact) {
-    console.log("[contact.onEnded] Contact has ended. Contact state is "+ contact.getStatus().type);
+    console.log("[contact.onEnded] Contact has ended.");
   } else {
     console.log("[contact.onEnded] Contact has ended. Null contact passed to event handler");
   }
@@ -140,19 +97,14 @@ async function handleContactEnded(contact) {
 }
 
 
-function setMeetingInfo(joinInfoDetails) {
-  let joinInfo = null;
+function getMeetingInfo(joinInfo) {
   try {
-    if(joinInfoDetails) {
-      if(typeof joinInfoDetails === 'string') {
-        joinInfo = JSON.parse(joinInfoDetails);
-      } else if(typeof joinInfoDetails === 'object') {
-        joinInfo = joinInfoDetails;
-      }
+    if(joinInfo && typeof joinInfo === 'string') {
+      joinInfo = JSON.parse(joinInfo);
     }
-    meeting = joinInfo['meeting'];
-    agentAttendee = joinInfo['agentAttendee'];
-    customerAttendee = joinInfo['customerAttendee'];
+    meeting = joinInfo.meeting;
+    agentAttendee = joinInfo.agentAttendee;
+    customerAttendee = joinInfo.customerAttendee;
   } catch(err) {
     console.log("error parsing json", err);
   }
@@ -184,7 +136,7 @@ observer = {
 };
 
 async function initializaMeetingSession() {
-  const logger = new ConsoleLogger('SDK', LogLevel.INFO);
+  const logger = new ConsoleLogger('SDK', LogLevel.OFF);
   session = new DefaultMeetingSession(
     new MeetingSessionConfiguration(
       meeting,

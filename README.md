@@ -118,13 +118,13 @@ Navigate to `/agent/`
 
 3. As the demo uses Amazon Connect Streams API, it is required to add your website as an approved origin to the created Amazon connect instance.
    1. To do this, goto [Amazon Connect](https://console.aws.amazon.com/connect), click 'Instance Alias' under Amazon Connect virtual contact center instances. On the left-hand side panel, you will find Application integration, click on it.
-   2. Under Approved origins, click on + Add origin → enter origin URL as http://localhost:8080 and click Add.
+   2. Under Approved origins, click on + Add origin → enter origin URL as https://localhost:8080 and click Add.
 
 4. Open terminal, navigate to `/agent/` directory
     1. Install NPM dependencies: `npm install`
     2. Build the app: `npm run build`
     3. Start the server: `npm run start`
-5. Step 4 opens http://localhost:8080 in your browser
+5. Step 4 opens https://localhost:8080 in your browser
 
 
 ## Important Note

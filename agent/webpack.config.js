@@ -53,5 +53,6 @@ module.exports = {
     compress: true,
     port: 8080,
     disableHostCheck: true,
+    https: true
   },
 };
