@@ -11,6 +11,8 @@ The demo has a customer application that uses the pre-built customer chat widget
 
 ## Getting Started
 
+> Note: Setting up and running the Amazon Chime SDK and the Amazon Connect integration demo may incur extra charges in your AWS account.
+
 ### Customer Setup
 #### Step 1: Create StartVideoCall Amazon Lex Bot
 This bot is needed for the contact flow (`Chime Connect Integration flow.json`). This bot helps in branching the Amazon Connect contact flow decision making when the customer wants to do a video enabled chat or just simple chat.
@@ -126,6 +128,9 @@ Navigate to `/agent/`
     3. Start the server: `npm run start`
 5. Step 4 opens https://localhost:8080 in your browser
 
+## Cleaning up
+
+To avoid incurring future charges, delete the Amazon Connect instance and the AWS CloudFormation templates created as part of the setup steps.
 
 ## Important Note
 
