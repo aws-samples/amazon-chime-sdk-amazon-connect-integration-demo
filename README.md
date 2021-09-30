@@ -17,7 +17,8 @@ The demo has a customer application that uses the pre-built customer chat widget
 #### Step 1: Create StartVideoCall Amazon Lex Bot
 This bot is needed for the contact flow (`Chime Connect Integration flow.json`). This bot helps in branching the Amazon Connect contact flow decision making when the customer wants to do a video enabled chat or just simple chat.
 
-1. Goto [Amazon Lex](https://console.aws.amazon.com/lex)
+1. Goto [Amazon Lex](https://console.aws.amazon.com/lex).
+> Please use Lex V1 console. You can change to V1 console by clicking 'Return to the V1 console', if AWS Management console shows you V2 UI by default.
 2. If you have never created any Amazon Lex bot, then click on Get Started → Click Cancel (This is needed to go to home page)
 3. You should see the Amazon Lex home page with Create and Actions buttons and all the created Amazon Lex bots
 4. Click Actions → Import bot → Upload the zip file from `/lexbot/` → Click Import
