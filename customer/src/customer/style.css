@@ -430,20 +430,19 @@ ol.normal {
 }
 
 .meeting-controls {
-  position: fixed;
-  bottom: 45px;
+  margin-top: 0.5rem;
   display: flex;
 }
 
 .controlBtn {
   content: "";
   display: block;
-  height: 70px;
-  width: 70px;
+  height: 50px;
   margin: 0 10px;
   border: none;
-  border-radius: 100%;
+  border-radius: 10px;
   background: #1d1c1c;
+  color: #d0d0d0;
   transition: all 180ms ease;
 }
 

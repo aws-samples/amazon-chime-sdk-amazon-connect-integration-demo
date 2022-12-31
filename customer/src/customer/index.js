@@ -9,8 +9,8 @@ import {
   MeetingSessionConfiguration,
 } from 'amazon-chime-sdk-js';
 
-import '../style.css';
-import { domElement, domHide, domShow } from '../utils';
+import './style.css';
+import { domElement, domElementById, domHide, domShow } from '../utils';
 import { API_GATEWAY_ENDPOINT, CONTACT_FLOW_ID, INSTANCE_ID, AWS_REGION } from '../ConnectChatInterfaceConfig';
 
 const windowAny = window;
@@ -186,19 +186,33 @@ function failureHandler(error) {
   console.log('[connect.ChatInterface.initiateChat] failed', error);
 }
 
+const muteLocalAudio = function(session, shouldMute) {
+  return function(event) {
+    if (!session) {
+      return;
+    }
+    if(shouldMute) {
+      session.audioVideo.realtimeMuteLocalAudio();
+    } else {
+      session.audioVideo.realtimeUnmuteLocalAudio();
+    }
+  }
+}
 
 async function initializeMeetingSession() {
   const logger = new ConsoleLogger('ChimeMeetingLogs', LogLevel.INFO);
   const deviceController = new DefaultDeviceController(logger);
   const configuration = new MeetingSessionConfiguration(meeting, customerAttendee);
   meetingSession = new DefaultMeetingSession(configuration, logger, deviceController);
+  domElementById("btn-unmute-audio-input").addEventListener('click', muteLocalAudio(meetingSession, false));
+  domElementById("btn-mute-audio-input").addEventListener('click', muteLocalAudio(meetingSession, true));
   meetingSession.audioVideo.addObserver(observer);
   try {
     domHide('meeting-info');
     const audioInputs = await meetingSession.audioVideo.listAudioInputDevices();
-    await meetingSession.audioVideo.chooseAudioInputDevice(audioInputs[0].deviceId);
+    await meetingSession.audioVideo.startAudioInput(audioInputs[0].deviceId);
     const videoInputs = await meetingSession.audioVideo.listVideoInputDevices();
-    await meetingSession.audioVideo.chooseVideoInputDevice(videoInputs[0].deviceId);
+    await meetingSession.audioVideo.startVideoInput(videoInputs[0].deviceId);
   } catch (err) {
     // handle error - unable to acquire audio device perhaps due to permissions blocking
     console.log("Failed to access the audio video devices might be due permissions blocking");
@@ -223,8 +237,12 @@ const observer = {
     meetingSession.audioVideo.bindVideoElement(tileState.tileId, domElement(videoElement));
     domShow(videoElement);
   },
-  audioVideoDidStop: sessionStatus => {
+  audioVideoDidStop: async sessionStatus => {
     console.log('Audio Video Stopped:', sessionStatus);
+    await meetingSession.destroy();
+    meetingSession = null;
+    meeting = null;
+    customerAttendee = null;
   },
   videoTileWasRemoved: tileId => {
     console.log(`Tile with ID: ${tileId} got removed`);
@@ -252,12 +270,12 @@ function resetForm() {
   document.getElementById('startChat').value = "Speak to an agent";
 }
 
-function endCurrentMeetingSession() {
+async function endCurrentMeetingSession() {
   if (meetingSession) {
-    meetingSession.audioVideo.stop();
-    meetingSession = null;
-    meeting = null;
-    customerAttendee = null;
+    await meetingSession.audioVideo.chooseAudioOutput(null);
+    await meetingSession.audioVideo.stopVideoInput();
+    await meetingSession.audioVideo.stopAudioInput();
+    await meetingSession.audioVideo.stop();
   }
   domHide('meeting-info');
   domHide('meeting-view');

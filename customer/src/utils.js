@@ -2,6 +2,10 @@ export function domElement(className) {
   return document.getElementsByClassName(className)[0];
 }
 
+export function domElementById(id) {
+  return document.getElementById(id);
+}
+
 export function domShow(className) {
   const element = domElement(className);
   element.style.display = 'flex';

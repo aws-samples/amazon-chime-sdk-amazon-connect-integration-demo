@@ -1,4 +1,9 @@
 node_modules
-package-lock.json
+public
 *DS_Store
 Config
+
+# A new LICENSE file gets created upon bundling.
+# Since, we already include a LICENSE and NOTICE file in the top directory,
+# ignore pushing this auto-created file to GitHub.
+*-bundle.js.LICENSE.txt
