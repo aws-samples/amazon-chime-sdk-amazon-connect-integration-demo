@@ -11,7 +11,7 @@ import {
 
 import { endMeeting, createMeetingAndAddCustomerAndAgentAttendee } from '../meeting-operations/meeting';
 import { AGENT_CCP_URL, AWS_REGION } from '../AgentConfig';
-import { domElement, domHide, domShow } from '../utils';
+import { domElement, domElementById, domHide, domShow } from '../utils';
 
 let agentAttendee = null,
     customerAttendee = null,
@@ -37,7 +37,7 @@ function initButtons() {
   videoToggleButton.addEventListener('click', handleVideoToggleButton);
 
   const endMeetingButton = domElement("btn-end-meeting");
-  endMeetingButton.addEventListener('click', handleEndMeeting)
+  endMeetingButton.addEventListener('click', handleEndMeeting);
 }
 
 async function handleVideoToggleButton(event) {
@@ -52,6 +52,19 @@ async function handleVideoToggleButton(event) {
     domHide('agent-view');
     videoToggleButton.innerHTML = "Join Video";
   }
+}
+
+const muteLocalAudio = function(session, shouldMute) {
+  return function(event) {
+    if (!session) {
+      return;
+    }
+    if(shouldMute) {
+      session.audioVideo.realtimeMuteLocalAudio();
+    } else {
+      session.audioVideo.realtimeUnmuteLocalAudio();
+    }
+  } 
 }
 
 function initCCP() {
@@ -92,8 +105,8 @@ async function handleContactEnded(contact) {
   } else {
     console.log("[contact.onEnded] Contact has ended. Null contact passed to event handler");
   }
+  await leave();
   await endMeeting(meeting);
-  leave();
 }
 
 
@@ -130,8 +143,9 @@ observer = {
     domHide(loader);
     domShow(videoElement);
   },
-  audioVideoDidStop: (sessionStatus) => {
+  audioVideoDidStop: async (sessionStatus) => {
     console.log("Audio video communication stopped", sessionStatus);
+    await session && session.destroy()
   }
 };
 
@@ -146,13 +160,16 @@ async function initializaMeetingSession() {
     new DefaultDeviceController(logger),
   );
 
+  domElementById("btn-unmute-audio-input").addEventListener('click', muteLocalAudio(session, false));
+  domElementById("btn-mute-audio-input").addEventListener('click', muteLocalAudio(session, true));
+
   session.audioVideo.addObserver(observer);
 
   const firstAudioDeviceId = (await session.audioVideo.listAudioInputDevices())[0].deviceId;
-  await session.audioVideo.chooseAudioInputDevice(firstAudioDeviceId);
+  await session.audioVideo.startAudioInput(firstAudioDeviceId);
 
   const firstVideoDeviceId = (await session.audioVideo.listVideoInputDevices())[0].deviceId;
-  await session.audioVideo.chooseVideoInputDevice(firstVideoDeviceId);
+  await session.audioVideo.startVideoInput(firstVideoDeviceId);
 
   session.audioVideo.bindAudioElement(domElement('help-desk-audio'));
 
@@ -161,9 +178,12 @@ async function initializaMeetingSession() {
 
 
 
-function leave() {
+async function leave() {
   if (session) {
-    session.audioVideo.stop();
+    await session.audioVideo.chooseAudioOutput(null);
+    await session.audioVideo.stopVideoInput();
+    await session.audioVideo.stopAudioInput();
+    await session.audioVideo.stop();
   }
   session = null;
   meeting = null;
@@ -178,6 +198,6 @@ function leave() {
 
 
 async function handleEndMeeting() {
+  await leave();
   await endMeeting(meeting);
-  leave();
 }

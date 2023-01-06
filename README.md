@@ -113,6 +113,7 @@ Follow these steps to enable CORS:
 5. Finally click Deploy API from Actions dropdown.
 
 ### Running the agent application
+
 Navigate to `/agent/`
 
 1. Update the `ACCESS_KEY`, `SECRET_KEY`, `INVOKE_URL` in `/agent/src/AgentConfig.js` with values received in AWS CloudFormation output tab. Update `AWS_REGION` if needed, but keep it the same everywhere
@@ -127,7 +128,13 @@ Navigate to `/agent/`
     1. Install NPM dependencies: `npm install`
     2. Build the app: `npm run build`
     3. Start the server: `npm run start`
-5. Step 4 opens https://localhost:8080 in your browser
+5. Step 4 opens https://localhost:8080 in your browser.
+
+6. Once open, a separate Amazon Connect window opens as well requesting you to login to your connect instance that you created. Use the admin credentials for the administrator you created as part of the connect instance creation steps. Upon login, go back to the https://localhost:8080 tab and change the status to "Available" from the left top side to make the agent available to receive the calls from customer application. The agent application might result into certificate issues in Firefox. Recommend to use Chrome browser for this demo purpose. At times, `SAMEORIGIN` `X-Frame-Options` error may also be seen in where the agent application keeps on trying to connect due to certificate issue. If that is the case, open `https://<YOUR AMAZON CONNECT INSTANCE ALIAS>.awsapps.com/connect/ccp-v2/chat` in a separate tab in same window, login using the administrator and again refresh the https://localhost:8080 tab.
+
+### Demo experience
+
+Check the demo screenshots in the [Build a video contact center with Amazon Connect and Amazon Chime SDK](https://aws.amazon.com/blogs/business-productivity/build-a-video-contact-center-with-amazon-connect-and-amazon-chime-sdk/) blog post to follow through the demo experience with agent and customer application now running in the browser.
 
 ## Cleaning up
 

@@ -6,19 +6,13 @@ module.exports = {
     agent: './src/agent/index.js'
   },
   output: {
+    publicPath: '',
     path: path.resolve(__dirname, 'public'),
     filename: '[name]-bundle.js',
   },
   mode: 'production',
   module: {
     rules: [
-      {
-        test: /\.js$/,
-        exclude: /(node_modules)/,
-        use: {
-          loader: 'babel-loader',
-        },
-      },
       {
         test: /\.css$/,
         use: ['style-loader', 'css-loader'],
@@ -29,13 +23,7 @@ module.exports = {
       },
       {
         test: /\.(svg|png)$/,
-        use: {
-          loader: 'file-loader',
-          options: {
-            name: '[name].[ext]',
-            outputPath: 'assets'
-          }
-        }
+        type: 'asset/resource'
       }
     ],
   },
@@ -49,10 +37,16 @@ module.exports = {
     })
   ],
   devServer: {
-    contentBase: path.join(__dirname, 'public'),
+    static: {
+      directory: path.join(__dirname, 'public'),
+    },
     compress: true,
     port: 8080,
-    disableHostCheck: true,
     https: true
   },
+  resolve: {
+    fallback: {
+      buffer: require.resolve("buffer/"),
+    }
+  }
 };
