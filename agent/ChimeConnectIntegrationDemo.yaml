@@ -123,7 +123,7 @@ Resources:
       FunctionName: 'createChimeMeeting'
       Handler: index.handler
       Role: !GetAtt LambdaIamRole.Arn
-      Runtime: nodejs12.x
+      Runtime: nodejs16.x
 
   DeleteChimeMeetingLambda:
     Type: AWS::Lambda::Function
@@ -135,7 +135,7 @@ Resources:
       FunctionName: 'deleteChimeMeeting'
       Handler: index.handler
       Role: !GetAtt LambdaIamRole.Arn
-      Runtime: nodejs12.x
+      Runtime: nodejs16.x
 
   LambdaIamRole:
     Type: AWS::IAM::Role
